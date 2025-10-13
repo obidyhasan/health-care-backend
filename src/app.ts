@@ -6,6 +6,7 @@ import notFound from "./app/middlewares/notFound";
 import router from "./app/routes";
 
 const app: Application = express();
+
 app.use(
   cors({
     origin: config.frontend_url,
@@ -16,6 +17,9 @@ app.use(
 // Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Router
+app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
   res.send({
