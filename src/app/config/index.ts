@@ -8,4 +8,16 @@ export default {
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
   frontend_url: process.env.FRONTEND_URL,
+  bcrypt_salt_number: process.env.BCRYPT_SALT_NUMBER,
+  jwt: {
+    jwt_access_secret: process.env.JWT_ACCESS_SECRET,
+    jwt_access_expires: process.env.JWT_ACCESS_EXPIRES,
+    jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
+    jwt_refresh_expires: process.env.JWT_REFRESH_EXPIRES,
+  },
+  cloudinary: {
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+  },
 };
