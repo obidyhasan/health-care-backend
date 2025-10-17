@@ -4,9 +4,8 @@ import bcrypt from "bcryptjs";
 import config from "../../config";
 import { prisma } from "../../shared/prisma";
 import { paginationHelper } from "../../helper/paginationHelper";
-import { Prisma } from "@prisma/client";
+import { Admin, Doctor, Prisma, UserRole } from "@prisma/client";
 import { userSearchableFields } from "./user.constant";
-import { object } from "zod";
 
 const createPatient = async (req: Request) => {
   if (req.file) {
@@ -29,6 +28,66 @@ const createPatient = async (req: Request) => {
 
     return await tnx.patient.create({
       data: req.body.patient,
+    });
+  });
+
+  return result;
+};
+
+const createAdmin = async (req: Request): Promise<Admin> => {
+  if (req.file) {
+    const uploadToCloudinary = await fileUploader.uploadToCloudinary(req.file);
+    req.body.admin.profilePhoto = uploadToCloudinary?.secure_url;
+  }
+
+  const hashPassword = await bcrypt.hash(
+    req.body.password,
+    Number(config.bcrypt_salt_number)
+  );
+
+  const userData = {
+    email: req.body.admin.email,
+    password: hashPassword,
+    role: UserRole.ADMIN,
+  };
+
+  const result = await prisma.$transaction(async (tnx) => {
+    await tnx.user.create({
+      data: userData,
+    });
+
+    return await tnx.admin.create({
+      data: req.body.admin,
+    });
+  });
+
+  return result;
+};
+
+const createDoctor = async (req: Request): Promise<Doctor> => {
+  if (req.file) {
+    const uploadToCloudinary = await fileUploader.uploadToCloudinary(req.file);
+    req.body.doctor.profilePhoto = uploadToCloudinary?.secure_url;
+  }
+
+  const hashedPassword: string = await bcrypt.hash(
+    req.body.password,
+    Number(config.bcrypt_salt_number)
+  );
+
+  const userData = {
+    email: req.body.doctor.email,
+    password: hashedPassword,
+    role: UserRole.DOCTOR,
+  };
+
+  const result = await prisma.$transaction(async (tx) => {
+    await tx.user.create({
+      data: userData,
+    });
+
+    return await tx.doctor.create({
+      data: req.body.doctor,
     });
   });
 
@@ -95,5 +154,7 @@ const getAllFromDB = async (params: any, options: any) => {
 
 export const UserService = {
   createPatient,
+  createAdmin,
+  createDoctor,
   getAllFromDB,
 };
