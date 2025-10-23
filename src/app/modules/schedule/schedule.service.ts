@@ -9,8 +9,6 @@ const insertIntoDB = async (payload: any) => {
   const intervalTime = 30;
   const schedules = [];
 
-  console.log({ startTime, endTime, startDate, endDate });
-
   const currentDate = new Date(startDate);
   const lastDate = new Date(endDate);
 
