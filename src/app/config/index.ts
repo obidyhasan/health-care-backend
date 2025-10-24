@@ -9,6 +9,7 @@ export default {
   database_url: process.env.DATABASE_URL,
   frontend_url: process.env.FRONTEND_URL,
   bcrypt_salt_number: process.env.BCRYPT_SALT_NUMBER,
+  open_router_api_key: process.env.OPEN_ROUTER_API_KEY,
   jwt: {
     jwt_access_secret: process.env.JWT_ACCESS_SECRET,
     jwt_access_expires: process.env.JWT_ACCESS_EXPIRES,

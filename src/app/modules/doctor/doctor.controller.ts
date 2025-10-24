@@ -32,7 +32,31 @@ const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
+  const result = await DoctorService.getByIdFromDB(req.params.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Single Doctor fetched successfully!",
+    data: result,
+  });
+});
+
+const getAiSuggestions = catchAsync(async (req: Request, res: Response) => {
+  const result = await DoctorService.getAiSuggestions(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "AI suggestions fetched successfully",
+    data: result,
+  });
+});
+
 export const DoctorController = {
   getAllFromDB,
   updateIntoDB,
+  getAiSuggestions,
+  getByIdFromDB,
 };
