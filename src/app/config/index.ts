@@ -10,6 +10,8 @@ export default {
   frontend_url: process.env.FRONTEND_URL,
   bcrypt_salt_number: process.env.BCRYPT_SALT_NUMBER,
   open_router_api_key: process.env.OPEN_ROUTER_API_KEY,
+  stripe_secret_key: process.env.STRIPE_SECRET_KET,
+  webhook_secret_key: process.env.WEBHOOK_SECRET_KET,
   jwt: {
     jwt_access_secret: process.env.JWT_ACCESS_SECRET,
     jwt_access_expires: process.env.JWT_ACCESS_EXPIRES,
