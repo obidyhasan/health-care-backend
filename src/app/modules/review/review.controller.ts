@@ -4,6 +4,8 @@ import { ReviewService } from "./review.service";
 import sendResponse from "../../shared/sendResponse";
 import catchAsync from "../../shared/catchAsync";
 import { IJWTPayload } from "../../types/common";
+import pick from "../../helper/pick";
+import { reviewFilterableFields } from "./review.constant";
 
 const insertIntoDB = catchAsync(
   async (req: Request & { user?: IJWTPayload }, res: Response) => {
@@ -22,6 +24,20 @@ const insertIntoDB = catchAsync(
   }
 );
 
+const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.params, reviewFilterableFields);
+  const options = pick(req.params, ["limit", "page", "sortBy", "sortOrder"]);
+  const result = await ReviewService.getAllFromDB(filters, options);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Reviews retrieval successfully!",
+    data: result,
+  });
+});
+
 export const ReviewController = {
   insertIntoDB,
+  getAllFromDB,
 };

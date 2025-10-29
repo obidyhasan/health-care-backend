@@ -7,6 +7,14 @@ import { DoctorScheduleValidation } from "./doctorSchedule.validation";
 
 const router = Router();
 
+router.get("/", auth(UserRole.ADMIN), DoctorScheduleController.getAllFromDB);
+
+router.get(
+  "/my-schedule",
+  auth(UserRole.DOCTOR),
+  DoctorScheduleController.getMySchedule
+);
+
 router.post(
   "/",
   validateRequest(
@@ -14,6 +22,12 @@ router.post(
   ),
   auth(UserRole.DOCTOR),
   DoctorScheduleController.insertIntoDB
+);
+
+router.delete(
+  "/:id",
+  auth(UserRole.DOCTOR),
+  DoctorScheduleController.deleteFromDB
 );
 
 export const DoctorScheduleRouter = router;
